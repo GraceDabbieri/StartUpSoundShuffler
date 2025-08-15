@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Set your preferred audio player here (quiet mode for ffplay)
+PLAYER="ffplay -nodisp -autoexit -loglevel quiet"
+if [ -d "$HOME/.sounds" ]; then
+	if [ -z "$(find "$HOME/.sounds" -type f ! -name ".*" 2>/dev/null)" ]; then
+		echo "No sounds were found in $HOME/.sounds"
+	else
+		# Pick a random file, ignoring hidden files
+		sound_file=$(find "$HOME/.sounds" -type f ! -name ".*" | shuf -n 1)
+		echo "Playing $sound_file"
+		$PLAYER "$sound_file"
+	fi
+else
+	mkdir -p "$HOME/.sounds"
+	echo "created ~/.sounds directory. Please add sounds and run this program again."
+fi
